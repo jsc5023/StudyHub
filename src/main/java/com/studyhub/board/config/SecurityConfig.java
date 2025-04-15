@@ -31,14 +31,15 @@ public class SecurityConfig {
             OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService
     ) throws Exception {
         return http
-                .authorizeRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .mvcMatchers(
+                        .requestMatchers(
                                 HttpMethod.GET,
                                 "/",
                                 "/articles",
                                 "/articles/search-hashtag"
                         ).permitAll()
+                    .requestMatchers("/favicon.ico", "/css/**", "/js/**", "/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(withDefaults())
