@@ -15,16 +15,16 @@
 
 ---
 
-### 👤 User API
+### 👤 Member API
 
 | Method | URL | 설명 | 요청 / 응답 |
 | --- | --- | --- | --- |
-| `GET` | `/api/users/me` | 내 정보 조회 | Header: Authorization |
-| `PUT` | `/api/users/me` | 내 정보 수정 | `name`, `bio`, `techStacks`, `profileImageUrl` |
-| `GET` | `/api/users/me/projects` | 내가 등록한 프로젝트 목록 |  |
-| `GET` | `/api/users/me/applications` | 내가 지원한 프로젝트 목록 |  |
-| `GET` | `/api/users/me/notifications` | 알림 목록 |  |
-| `PUT` | `/api/users/me/notifications/read` | 전체 알림 읽음 처리 |  |
+| `GET` | `/api/members/me` | 내 정보 조회 | Header: Authorization |
+| `PUT` | `/api/members/me` | 내 정보 수정 | `name`, `bio`, `techStacks`, `profileImageUrl` |
+| `GET` | `/api/members/me/projects` | 내가 등록한 프로젝트 목록 |  |
+| `GET` | `/api/members/me/applications` | 내가 지원한 프로젝트 목록 |  |
+| `GET` | `/api/members/me/notifications` | 알림 목록 |  |
+| `PUT` | `/api/members/me/notifications/read` | 전체 알림 읽음 처리 |  |
 
 ---
 
@@ -191,7 +191,7 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
 - **Body**:
     
     ```json
-    {  "email": "user@example.com",  "password": "securePassword123",  "name": "홍길동",  "techStacks": ["Java", "Spring Boot", "React"]}
+    {  "email": "member@example.com",  "password": "securePassword123",  "name": "홍길동",  "techStacks": ["Java", "Spring Boot", "React"]}
     
     ```
     
@@ -202,7 +202,7 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
 - **Body**:
     
     ```json
-    {  "success": true,  "data": {    "id": 1,    "email": "user@example.com",    "name": "홍길동",    "techStacks": ["Java", "Spring Boot", "React"]  },  "message": "회원가입이 완료되었습니다."}
+    {  "success": true,  "data": {    "id": 1,    "email": "member@example.com",    "name": "홍길동",    "techStacks": ["Java", "Spring Boot", "React"]  },  "message": "회원가입이 완료되었습니다."}
     
     ```
     
@@ -217,7 +217,7 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
 - **Body**:
     
     ```json
-    {  "email": "user@example.com",  "password": "securePassword123"}
+    {  "email": "member@example.com",  "password": "securePassword123"}
     
     ```
     
@@ -277,14 +277,14 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
     ```
     
 
-## 👤 User API
+## 👤 Member API
 
 ### 내 정보 조회
 
 **요청**
 
 - **Method**: `GET`
-- **URL**: `/api/users/me`
+- **URL**: `/api/members/me`
 - **Description**: 로그인한 사용자 정보 조회
 - **Headers**:
     - `Authorization: Bearer {accessToken}`
@@ -295,7 +295,7 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
 - **Body**:
     
     ```json
-    {  "success": true,  "data": {    "id": 1,    "email": "user@example.com",    "name": "홍길동",    "bio": "백엔드 개발자입니다.",    "profileImageUrl": "https://storage.studyhub.com/profiles/user1.jpg",    "techStacks": ["Java", "Spring Boot", "React"],    "createdAt": "2025-03-15T09:30:00Z"  }}
+    {  "success": true,  "data": {    "id": 1,    "email": "member@example.com",    "name": "홍길동",    "bio": "백엔드 개발자입니다.",    "profileImageUrl": "https://storage.studyhub.com/profiles/member1.jpg",    "techStacks": ["Java", "Spring Boot", "React"],    "createdAt": "2025-03-15T09:30:00Z"  }}
     
     ```
     
@@ -305,14 +305,14 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
 **요청**
 
 - **Method**: `PUT`
-- **URL**: `/api/users/me`
+- **URL**: `/api/members/me`
 - **Description**: 사용자 정보 수정
 - **Headers**:
     - `Authorization: Bearer {accessToken}`
 - **Body**:
     
     ```json
-    {  "name": "홍길동 (수정)",  "bio": "백엔드 개발자 & 데브옵스 엔지니어",  "techStacks": ["Java", "Spring Boot", "React", "Docker"],  "profileImageUrl": "https://storage.studyhub.com/profiles/user1_new.jpg"}
+    {  "name": "홍길동 (수정)",  "bio": "백엔드 개발자 & 데브옵스 엔지니어",  "techStacks": ["Java", "Spring Boot", "React", "Docker"],  "profileImageUrl": "https://storage.studyhub.com/profiles/member1_new.jpg"}
     
     ```
     
@@ -323,7 +323,7 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
 - **Body**:
     
     ```json
-    {  "success": true,  "data": {    "id": 1,    "name": "홍길동 (수정)",    "bio": "백엔드 개발자 & 데브옵스 엔지니어",    "techStacks": ["Java", "Spring Boot", "React", "Docker"],    "profileImageUrl": "https://storage.studyhub.com/profiles/user1_new.jpg",    "updatedAt": "2025-03-20T14:25:00Z"  },  "message": "프로필이 업데이트되었습니다."}
+    {  "success": true,  "data": {    "id": 1,    "name": "홍길동 (수정)",    "bio": "백엔드 개발자 & 데브옵스 엔지니어",    "techStacks": ["Java", "Spring Boot", "React", "Docker"],    "profileImageUrl": "https://storage.studyhub.com/profiles/member1_new.jpg",    "updatedAt": "2025-03-20T14:25:00Z"  },  "message": "프로필이 업데이트되었습니다."}
     
     ```
     
@@ -333,7 +333,7 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
 **요청**
 
 - **Method**: `GET`
-- **URL**: `/api/users/me/projects`
+- **URL**: `/api/members/me/projects`
 - **Description**: 내가 생성한 프로젝트 목록 조회
 - **Headers**:
     - `Authorization: Bearer {accessToken}`
@@ -358,7 +358,7 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
 **요청**
 
 - **Method**: `GET`
-- **URL**: `/api/users/me/applications`
+- **URL**: `/api/members/me/applications`
 - **Description**: 내가 지원한 프로젝트 목록 및 지원 상태 조회
 - **Headers**:
     - `Authorization: Bearer {accessToken}`
@@ -383,7 +383,7 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
 **요청**
 
 - **Method**: `GET`
-- **URL**: `/api/users/me/notifications`
+- **URL**: `/api/members/me/notifications`
 - **Description**: 사용자 알림 목록 조회
 - **Headers**:
     - `Authorization: Bearer {accessToken}`
@@ -408,7 +408,7 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
 **요청**
 
 - **Method**: `PUT`
-- **URL**: `/api/users/me/notifications/read`
+- **URL**: `/api/members/me/notifications/read`
 - **Description**: 모든 알림을 읽음 상태로 변경
 - **Headers**:
     - `Authorization: Bearer {accessToken}`
@@ -640,7 +640,7 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
 - **Body**:
     
     ```json
-    {  "success": true,  "data": {    "content": [      {        "id": 15,        "user": {          "id": 2,          "name": "김철수",          "profileImageUrl": "https://storage.studyhub.com/profiles/user2.jpg",          "techStacks": ["Java", "Spring Boot", "Spring Security"]        },        "roleSlot": {          "id": 9,          "roleName": "백엔드"        },        "message": "Spring Security 관련 프로젝트 경험이 있으며, 인증 모듈 개발에 참여하고 싶습니다.",        "status": "PENDING",        "appliedAt": "2025-05-11T11:30:00Z"      },      {        "id": 16,        "user": {          "id": 3,          "name": "이영희",          "profileImageUrl": "https://storage.studyhub.com/profiles/user3.jpg",          "techStacks": ["React", "TypeScript", "Tailwind CSS"]        },        "roleSlot": {          "id": 10,          "roleName": "프론트엔드"        },        "message": "인증 UI 개발 경험이 있습니다.",        "status": "PENDING",        "appliedAt": "2025-05-11T14:20:00Z"      }    ],    "pageable": {      "pageNumber": 0,      "pageSize": 10,      "totalElements": 2,      "totalPages": 1    }  }}
+    {  "success": true,  "data": {    "content": [      {        "id": 15,        "member": {          "id": 2,          "name": "김철수",          "profileImageUrl": "https://storage.studyhub.com/profiles/member2.jpg",          "techStacks": ["Java", "Spring Boot", "Spring Security"]        },        "roleSlot": {          "id": 9,          "roleName": "백엔드"        },        "message": "Spring Security 관련 프로젝트 경험이 있으며, 인증 모듈 개발에 참여하고 싶습니다.",        "status": "PENDING",        "appliedAt": "2025-05-11T11:30:00Z"      },      {        "id": 16,        "member": {          "id": 3,          "name": "이영희",          "profileImageUrl": "https://storage.studyhub.com/profiles/member3.jpg",          "techStacks": ["React", "TypeScript", "Tailwind CSS"]        },        "roleSlot": {          "id": 10,          "roleName": "프론트엔드"        },        "message": "인증 UI 개발 경험이 있습니다.",        "status": "PENDING",        "appliedAt": "2025-05-11T14:20:00Z"      }    ],    "pageable": {      "pageNumber": 0,      "pageSize": 10,      "totalElements": 2,      "totalPages": 1    }  }}
     
     ```
     
@@ -706,7 +706,7 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
 
 - **Method**: `GET`
 - **URL**: `/api/notifications`
-- **Description**: 사용자 알림 목록 조회 (User API의 `/api/users/me/notifications`와 동일)
+- **Description**: 사용자 알림 목록 조회 (Member API의 `/api/members/me/notifications`와 동일)
 - **Headers**:
     - `Authorization: Bearer {accessToken}`
 - **Query Parameters**:
@@ -935,7 +935,7 @@ StudyHub API는 개발자들이 사이드 프로젝트 또는 스터디 팀을 �
 
 **구독 예시**
 
-- **Topic**: `/user/queue/notifications`
+- **Topic**: `/member/queue/notifications`
 - **메시지 형식**:
     
     ```json
