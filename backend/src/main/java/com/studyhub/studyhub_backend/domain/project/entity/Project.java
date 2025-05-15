@@ -70,10 +70,10 @@ public class Project extends BaseTimeEntity {
 
     // 비즈니스 메서드
     public void updateProject(String title, String description, LocalDate deadline) {
-        if (title != null) {
+        if (title != null && !title.isBlank()) {
             this.title = title;
         }
-        if (description != null) {
+        if (description != null && !description.isBlank()) {
             this.description = description;
         }
         if (deadline != null) {
@@ -82,39 +82,94 @@ public class Project extends BaseTimeEntity {
     }
 
     public void updateStatus(ProjectStatus status) {
+        // 상태 변경 검증 추가
+        validateStatusTransition(status);
         this.status = status;
     }
 
+    private void validateStatusTransition(ProjectStatus newStatus) {
+        if (this.status == ProjectStatus.COMPLETED && newStatus == ProjectStatus.RECRUITING) {
+            throw new IllegalStateException("완료된 프로젝트는 다시 모집 상태로 변경할 수 없습니다.");
+        }
+    }
+
+    // 기술 스택 관리 (orphanRemoval 활용)
     public void addTechStack(ProjectTechStack techStack) {
         this.techStacks.add(techStack);
-        techStack.setProject(this);
+        // 양방향 관계는 팩토리 메서드에서 처리
     }
 
     public void removeTechStack(ProjectTechStack techStack) {
         this.techStacks.remove(techStack);
-        techStack.setProject(null);
+        // orphanRemoval = true이므로 자동 삭제
     }
 
+    public void clearTechStacks() {
+        this.techStacks.clear();
+    }
+
+    // 기술 스택을 문자열로 업데이트
+    public void updateTechStacks(List<String> techStackNames) {
+        this.techStacks.clear();
+        techStackNames.forEach(name ->
+                ProjectTechStack.create(this, name)
+        );
+    }
+
+    // 역할 슬롯 관리 (orphanRemoval 활용)
     public void addRoleSlot(RoleSlot roleSlot) {
         this.roleSlots.add(roleSlot);
-        roleSlot.setProject(this);
+        // 양방향 관계는 팩토리 메서드에서 처리
     }
 
     public void removeRoleSlot(RoleSlot roleSlot) {
         this.roleSlots.remove(roleSlot);
-        roleSlot.setProject(null);
+        // orphanRemoval = true이므로 자동 삭제
     }
 
+    public void removeRoleSlotByName(String roleName) {
+        this.roleSlots.removeIf(roleSlot ->
+                roleSlot.getRoleName().equals(roleName));
+    }
+
+    // 팀원 관련 메서드
+    public void addTeamMember(TeamMember teamMember) {
+        this.teamMembers.add(teamMember);
+    }
+
+    // 권한 체크
     public boolean isOwner(Long memberId) {
         return this.owner.getId().equals(memberId);
     }
 
+    // 상태 체크
     public boolean isRecruiting() {
-        return this.status == ProjectStatus.RECRUITING &&
-                this.deadline.isAfter(LocalDate.now());
+        return this.status == ProjectStatus.RECRUITING
+                && this.deadline.isAfter(LocalDate.now());
     }
 
     public boolean isDeadlinePassed() {
         return this.deadline.isBefore(LocalDate.now());
+    }
+
+    public boolean canApply() {
+        return isRecruiting() && !isDeadlinePassed();
+    }
+
+    // 통계 정보
+    public int getTotalSlots() {
+        return this.roleSlots.stream()
+                .mapToInt(RoleSlot::getMaxCount)
+                .sum();
+    }
+
+    public int getFilledSlots() {
+        return this.roleSlots.stream()
+                .mapToInt(RoleSlot::getCurrentCount)
+                .sum();
+    }
+
+    public boolean isFull() {
+        return getFilledSlots() >= getTotalSlots();
     }
 }
