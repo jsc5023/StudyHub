@@ -38,13 +38,14 @@ public class Notification extends BaseTimeEntity {
 
     @Column(name = "is_read", nullable = false)
     @Builder.Default
-    private Boolean isRead = false;
+    private boolean isRead = false;  // Boolean -> boolean 변경
 
     // 비즈니스 메서드
     public void markAsRead() {
         this.isRead = true;
     }
 
+    // 정적 팩토리 메서드
     public static Notification create(Member member, String message, NotificationType type, Long resourceId) {
         return Notification.builder()
                 .member(member)
