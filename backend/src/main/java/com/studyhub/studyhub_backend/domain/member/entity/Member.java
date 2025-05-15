@@ -72,9 +72,8 @@ public class Member extends BaseTimeEntity {
     private List<Bookmark> bookmarks = new ArrayList<>();
 
     // 비즈니스 메서드
-
-    public void updateProfile(String name, String bio, String profileImageUrl) {
-        if (name != null) {
+    public void updateInfo(String name, String bio, String profileImageUrl) {
+        if (name != null && !name.isBlank()) {
             this.name = name;
         }
         if (bio != null) {
@@ -89,29 +88,36 @@ public class Member extends BaseTimeEntity {
         this.password = newPassword;
     }
 
+    // 기술 스택 관련 메서드 (같은 패키지이므로 패키지 레벨 메서드 호출 가능)
     public void addTechStack(MemberTechStack techStack) {
         this.techStacks.add(techStack);
-        techStack.setMember(this);
+        if (techStack.getMember() != this) {
+            techStack.assignMember(this);
+        }
     }
 
     public void removeTechStack(MemberTechStack techStack) {
         this.techStacks.remove(techStack);
-        techStack.setMember(null);
+        // orphanRemoval = true이므로 자동 삭제됨
     }
 
     public void clearTechStacks() {
         this.techStacks.clear();
     }
 
-    // 북마크 관련 메서드
+    // 북마크 관련 메서드 (단순화)
     public void addBookmark(Bookmark bookmark) {
         this.bookmarks.add(bookmark);
-        bookmark.setMember(this);
     }
 
     public void removeBookmark(Bookmark bookmark) {
         this.bookmarks.remove(bookmark);
-        bookmark.setMember(null);
+        // orphanRemoval = true이므로 자동 삭제됨
+    }
+
+    public void removeBookmarkByProjectId(Long projectId) {
+        this.bookmarks.removeIf(bookmark ->
+                bookmark.getProject().getId().equals(projectId));
     }
 
     public boolean hasBookmarked(Long projectId) {

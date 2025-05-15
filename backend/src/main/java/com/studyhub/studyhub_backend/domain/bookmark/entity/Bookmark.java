@@ -13,7 +13,6 @@ import lombok.*;
         }
 )
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -36,5 +35,13 @@ public class Bookmark extends BaseTimeEntity {
                 .member(member)
                 .project(project)
                 .build();
+    }
+
+    void assignMember(Member member) {
+        this.member = member;
+    }
+
+    void assignProject(Project project) {
+        this.project = project;
     }
 }

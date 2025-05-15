@@ -11,7 +11,6 @@ import lombok.*;
         }
 )
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -28,10 +27,21 @@ public class ProjectTechStack extends BaseTimeEntity {
     @Column(name = "tech_stack", length = 50, nullable = false)
     private String techStack;
 
+    // 정적 팩토리 메서드
     public static ProjectTechStack create(Project project, String techStack) {
-        return ProjectTechStack.builder()
+        ProjectTechStack projectTechStack = ProjectTechStack.builder()
                 .project(project)
                 .techStack(techStack)
                 .build();
+
+        // 양방향 관계 설정
+        project.addTechStack(projectTechStack);
+
+        return projectTechStack;
+    }
+
+    // 같은 패키지 내에서만 접근 가능
+    void assignProject(Project project) {
+        this.project = project;
     }
 }
