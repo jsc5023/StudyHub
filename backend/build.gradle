@@ -24,25 +24,57 @@ repositories {
 }
 
 dependencies {
+	// ===== 핵심 기능 =====
+	// Spring Data & JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Web MVC
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// Bean Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// ===== 데이터 저장소 =====
+	// Redis (동시성 제어 및 캐싱)
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+	// Database Drivers
+	runtimeOnly 'com.h2database:h2'  // 개발용 인메모리 DB
+	runtimeOnly 'com.mysql:mysql-connector-j'  // 운영용 MySQL
 
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// ===== 개발 편의 =====
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	// Hot Reload
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// ===== API 문서화 =====
+	// Swagger UI
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4'
+
+	// ===== 테스트 =====
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-	// security 잠시 사용하지 않으므로 비활성화 -> 로그인 기능 완성되면 활성화 할 예정
-//	testImplementation 'org.springframework.security:spring-security-test'
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
-//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	// ===== 보안 (현재 비활성화) =====
+	// TODO: 인증/인가 기능 구현 시 활성화
+	// implementation 'org.springframework.boot:spring-boot-starter-security'
+	// implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	// testImplementation 'org.springframework.security:spring-security-test'
+
+	// ===== 추가 예정 기능 =====
+	// TODO: JWT 토큰 인증
+	// implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+	// runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+	// runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
+	// TODO: 이메일 알림
+	// implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// TODO: 실시간 통신 (WebSocket)
+	// implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 tasks.named('test') {
